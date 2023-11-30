@@ -15,6 +15,11 @@ import Error404 from "./pages/Error404";
 import Tickets from "./pages/admin/Tickets";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreerBon from "./pages/bon/CreerBon";
+import ListUsers from "./pages/auth/ListUsers";
+import AddUser from "./pages/auth/AddUser";
+import UpdUser from "./pages/auth/UpdUser";
+import ListBons from "./pages/bon/ListBons";
 
 function App() {
   return (
@@ -26,8 +31,16 @@ function App() {
         <Route path="/registro" element={<Register />} />
         <Route path="/olvide-password" element={<ForgetPassword />} />
         <Route path="/" element={<LayoutAdmin />}>
+          
           <Route index element={<Home />} />
+          <Route path="users" element={<ListUsers />} />
+          <Route path="ajoute-user" element={<AddUser />} />
+          <Route path="changer-user/:id" element={<UpdUser />} />
+
           <Route path="perfil" element={<Profile />} />
+          <Route path="creer-bon-bagage" element={<CreerBon />} />
+          <Route path="list-bon-bagage" element={<ListBons />} />
+
           <Route path="chat" element={<Chat />} />
           <Route path="tickets" element={<Tickets />} />
         </Route>
