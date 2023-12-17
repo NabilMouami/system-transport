@@ -1,0 +1,29 @@
+{
+  "Thanks": {
+    "1": "고마워요"
+  },
+  "Why": {
+    "1": "이 영상을 봐주셔서"
+  },
+  "Sidebar": {
+    "bon": "Bon De Client",
+    "creer-bon": "Creer Bon",
+    "list-bon": "List Bons",
+    "user": "Utilisateurs"
+  },
+  "Bon": {
+    "titre-creer": "Validez Les Informations Sur Bagage",
+    "ville": "Ville",
+    "date": "Date",
+    "destinataire": "Destinataire",
+    "expediteur": "Expediteur",
+    "genre": "Genre",
+    "poids": "Poids",
+    "prix": "Prix",
+    "num-bon": "Bon",
+    "reste": "Reste",
+    "status": "Status Bon",
+    "button-ajouter": "Ajouter Au Bon",
+    "button-changer": "Changer"
+  }
+}

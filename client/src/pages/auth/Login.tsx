@@ -1,5 +1,5 @@
-import React, { useState,useRef } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 // Icons
 import {
   RiMailLine,
@@ -46,16 +46,13 @@ const Login = () => {
         </h1>
         <div className="mb-8">
           <button className="flex items-center justify-center py-3 px-4 gap-4 bg-secondary-900 w-full rounded-full mb-8 text-gray-100">
-            <img
-              src="https://rotulosmatesanz.com/wp-content/uploads/2017/09/2000px-Google_G_Logo.svg_.png"
-              className="w-4 h-4"
-            />
-            Ingresa con google
+            <img src="/images/logo-user.jpg" className="w-10 h-10 rounded-xl" />
+            Groupe Hiba Trans
           </button>
           <div className="relative mb-4">
             <RiMailLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
             <input
-               ref={email}
+              ref={email}
               type="email"
               className="py-3 pl-8 pr-4 bg-secondary-900 w-full outline-none rounded-lg"
               placeholder="Email:"
@@ -83,29 +80,12 @@ const Login = () => {
           </div>
           <div>
             <button
-             onClick={loginApp}        
+              onClick={loginApp}
               className="bg-primary text-black uppercase font-bold text-sm w-full py-3 px-4 rounded-lg"
             >
               Login
             </button>
           </div>
-        </div>
-        <div className="flex flex-col items-center gap-4">
-          <Link
-            to="/olvide-password"
-            className="hover:text-primary transition-colors"
-          >
-            ¿Olvidaste tu contraseña?
-          </Link>
-          <span className="flex items-center gap-2">
-            ¿No tienes cuenta?{" "}
-            <Link
-              to="/registro"
-              className="text-primary hover:text-gray-100 transition-colors"
-            >
-              Registrate
-            </Link>
-          </span>
         </div>
       </div>
     </div>

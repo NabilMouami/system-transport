@@ -1,5 +1,5 @@
-export interface PostBon{
- ville: string;
+export interface PostBon {
+  ville: string;
   date: string;
   telephoneClient: string;
   destinataire: string;
@@ -11,4 +11,6 @@ export interface PostBon{
   poids: string;
   prix: number;
   numBon: number;
+  reste: number;
+  unity: string;
 }

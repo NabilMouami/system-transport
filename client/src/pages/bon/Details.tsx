@@ -1,63 +1,50 @@
-import { Fragment, useEffect, useState, useRef, useCallback } from "react";
-import {
-  RiGpsFill,
-  RiPhoneFill,
-  RiPhoneFindFill,
-  RiPhoneLine,
-} from "react-icons/ri";
+import React, { useState, useEffect, Fragment } from "react";
+import { RiGpsFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { toast } from "react-toastify";
-import { resetBon } from "../../actions/action";
-import { useDispatch } from "react-redux";
-function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
-  const Bon = useSelector((state) => state.Bon);
-  const { cart } = Bon;
-  const [totalBon, setTotalBon] = useState(0);
-  const dispatch = useDispatch();
-  const componentRef1 = useRef();
-
-  const handlePrint = () => {
-    window.print();
-  };
-  function toPrecision(num, precision) {
-    num = Math.trunc(num * 10 ** precision) / 10 ** precision;
-    return num;
-  }
-
-  const handleAfterPrint = useCallback(() => {
-    dispatch(resetBon()); // tslint:disable-line no-console
-  }, []);
+import custom_axios from "../../axios/AxiosSetup";
+function Details() {
+  const Bon = useSelector((state: any) => state.Load);
+  const { Col } = Bon;
+  const [listBons, setListUsers] = useState([
+    {
+      id: 7,
+      ville: "Paris",
+      date: "2023-12-04",
+      telephoneClient: "063993902",
+      destinataire: "Amine skali",
+      telephoneDestinataire: "0339949493",
+      expediteur: "bilal lamkadam",
+      cin: "s93030",
+      nbrColis: 1,
+      genreColis: "Carton",
+      poids: "8kg",
+      prix: 180,
+      numBon: "41220231526",
+      reste: 300,
+      status: "impayer",
+      user: {
+        id: 1,
+        firstName: "Nabil",
+        lastName: "Mouami",
+        email: "nabil.admin@gmail.com",
+        password: "test",
+        role: "ADMIN",
+      },
+    },
+  ]);
+  console.log(listBons);
   useEffect(() => {
-    let rows = document.querySelectorAll(".amount");
-    let sum = 0;
-
-    for (let i = 0; i < rows.length; i++) {
-      if (rows[i].className === "amount") {
-        sum += isNaN(rows[i].innerHTML) ? 0 : parseInt(rows[i].innerHTML);
-        setTotalBon(sum);
-      }
-    }
-  });
-
+    custom_axios
+      .get(`/bon/bons/${Col.numBon}`, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
+      .then((res) => {
+        setListUsers(res.data);
+      });
+  }, []);
   return (
     <Fragment>
-      <ReactToPrint
-        trigger={() => (
-          <button
-            className="bg-blue-500 ml-5 text-white font-bold py-2 px-8 rounded shadow border-2 border-blue-500 hover:bg-transparent hover:text-blue-500 transition-all duration-300"
-            onClick={() => handlePrint()}
-          >
-            Print / Download
-          </button>
-        )}
-        content={() => componentRef1.current}
-        onAfterPrint={handleAfterPrint}
-      />
-      <div
-        ref={componentRef1}
-        className="h-auto text-black bg-white p-4 w-full rounded-xl m-4"
-      >
+      <div className="text-black bg-white p-4 w-full rounded-xl m-4">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-3 items-center justify-center">
             <h1 className="text-4xl underline text-black font-bold">
@@ -71,7 +58,7 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
               <br />
               Transport de bagages et Colis.
             </p>
-            <hr className="w-full border-solid border-indigo-500 border-1" />
+            <hr className="w-full border-solid border-indigo-500 border-2" />
             <p className="text-center flex items-center">
               <RiGpsFill className="text-3xl mb-4" />{" "}
               <span>
@@ -79,18 +66,6 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
                 <br /> Segangan-Nador.
               </span>
             </p>
-            <hr className="w-full border-solid border-indigo-500 border-1" />
-            <div className="flex items-center flex-row gap-5">
-              <p className="flex items-center">
-                <RiPhoneFill /> <span>07.63.78.19.53</span>
-              </p>
-              <p className="flex items-center">
-                <RiPhoneFill /> <span>06.43.10.04.39</span>
-              </p>
-              <p className="flex items-center">
-                <RiPhoneLine /> <span>0034632065676</span>
-              </p>
-            </div>
           </div>
           <div className="flex flex-col gap-3 items-center justify-center">
             <img
@@ -100,10 +75,10 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
               height="150"
             />
             <h2 className="uppercase font-bold">bon bagage</h2>
-            <h2 className="uppercase font-bold">N: {NumBon}</h2>
+            <h2 className="uppercase font-bold">N:{Col.numBon}</h2>
           </div>
           <div className="flex flex-col gap-3 items-center justify-center">
-            <div className="flex items-center justify-center gap-2 mr-3">
+            <div className="flex items-center justify-center gap-2">
               <img src="/images/maroc.jpg" alt="flag1" width="30" height="30" />
               <img
                 src="/images/espagne.jpg"
@@ -142,16 +117,9 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
                 height="30"
               />
             </div>
-            <p>
-              <span className="font-bold underline">Ville:</span> {ville}
-            </p>
-            <p>
-              <span className="font-bold underline">Date:</span> {date}
-            </p>
-            <p>
-              <span className="font-bold underline">Tel:</span>{" "}
-              {telephoneClient}
-            </p>
+            <span>Ville:{Col.ville}</span>
+            <span>Date:{Col.date} </span>
+            <span>Tel:{Col.telephoneClient}</span>
           </div>
         </div>
         <table width="100%" className="mt-10">
@@ -167,7 +135,7 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
               <td className="font-bold">Prix(Dh)</td>
             </tr>
           </thead>
-          {cart.map(
+          {listBons.map(
             ({
               destinataire,
               telephoneDestinataire,
@@ -179,8 +147,8 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
               prix,
               id,
             }) => (
-              <Fragment>
-                <tbody key={id}>
+              <Fragment key={id}>
+                <tbody>
                   <tr className="h-10">
                     <td>{destinataire}</td>
                     <td>{telephoneDestinataire}</td>
@@ -189,19 +157,26 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
                     <td>{nbrColis}</td>
                     <td>{genreColis}</td>
                     <td>{poids}</td>
-                    <td className="amount">{prix}</td>
+                    <td>{prix}</td>
                   </tr>
                 </tbody>
               </Fragment>
             )
           )}
         </table>
-        <div className="flex items-center justify-between m-4">
-          <p>
-            <span className="font-bold sans underline">Signature:</span>
+        <div className="flex items-center justify-between m-6">
+          <p className="font-bold text-xl">
+            User:
+            <span className="text-blue-700">
+              {" "}
+              {listBons[0]?.user?.firstName} {listBons[0]?.user?.lastName}
+            </span>
           </p>
-          <p>
-            <span className="font-bold sans">Total Prix: {totalBon}</span>
+          <p className="font-bold text-xl">
+            Payer/Impayer:<span className="text-blue-700"> {Col.status}</span>
+          </p>
+          <p className="font-bold text-xl">
+            Reste:<span className="text-orange-700"> {Col.reste}</span>
           </p>
         </div>
       </div>
@@ -209,4 +184,4 @@ function PrintBon({ date, ville, telephoneClient, NumBon, post, setPost }) {
   );
 }
 
-export default PrintBon;
+export default Details;

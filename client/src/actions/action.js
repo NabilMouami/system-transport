@@ -1,13 +1,11 @@
-
 import {
-    COL_DETAILS_REQUEST,
-    COL_DETAILS_SUCCESS,
-    COL_DETAILS_FAIL,
-    RESET_BON,
-    USER_LOGOUT,
-    ITEM_BOIS_BON
+  COL_DETAILS_REQUEST,
+  COL_DETAILS_SUCCESS,
+  COL_DETAILS_FAIL,
+  RESET_BON,
+  USER_LOGOUT,
+  ITEM_BOIS_BON,
 } from "./type";
-
 
 const detailsAcc = (item) => async (dispatch) => {
   try {
@@ -18,15 +16,14 @@ const detailsAcc = (item) => async (dispatch) => {
   }
 };
 const ajouteEnBon = (item) => (dispatch) => {
- 
-    dispatch({ type: ITEM_BOIS_BON, payload: item });
- 
+  dispatch({ type: ITEM_BOIS_BON, payload: item });
 };
 const logout = () => (dispatch) => {
-  dispatch({ type: USER_LOGOUT,payload: {} });
+  dispatch({ type: USER_LOGOUT, payload: {} });
 };
-const resetBon = () => (dispatch) => {
-  dispatch({ type: RESET_BON,payload: {} });
+const resetBon = () => async (dispatch) => {
+  await dispatch({ type: RESET_BON, payload: {} });
+  await window.location.reload(true);
 };
 
-export { logout,detailsAcc,ajouteEnBon,resetBon };
+export { logout, detailsAcc, ajouteEnBon, resetBon };

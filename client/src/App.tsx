@@ -20,26 +20,33 @@ import ListUsers from "./pages/auth/ListUsers";
 import AddUser from "./pages/auth/AddUser";
 import UpdUser from "./pages/auth/UpdUser";
 import ListBons from "./pages/bon/ListBons";
-
+import Details from "./pages/bon/Details";
+import UpdBon from "./pages/bon/UpdBon";
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer autoClose={3000} position={"top-center"} hideProgressBar={true} />
+      <ToastContainer
+        autoClose={3000}
+        position={"top-center"}
+        hideProgressBar={true}
+      />
 
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/olvide-password" element={<ForgetPassword />} />
         <Route path="/" element={<LayoutAdmin />}>
-          
           <Route index element={<Home />} />
           <Route path="users" element={<ListUsers />} />
           <Route path="ajoute-user" element={<AddUser />} />
           <Route path="changer-user/:id" element={<UpdUser />} />
 
           <Route path="perfil" element={<Profile />} />
+          <Route path="perfil/:id" element={<Profile />} />
           <Route path="creer-bon-bagage" element={<CreerBon />} />
           <Route path="list-bon-bagage" element={<ListBons />} />
+          <Route path="details-bon/:id" element={<Details />} />
+          <Route path="changer-bon/:id" element={<UpdBon />} />
 
           <Route path="chat" element={<Chat />} />
           <Route path="tickets" element={<Tickets />} />

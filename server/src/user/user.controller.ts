@@ -3,10 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
   ValidationPipe,
+  ParseIntPipe,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -26,20 +27,27 @@ export class UserController {
     console.log(createUserDto);
     return this.userService.create(createUserDto);
   }
-
+  @ApiSecurity('JWT-auth')
+  @Get(':id')
+  findUser(@Param('id', ParseIntPipe) id: number, @Req() req) {
+    return this.userService.findUserById(id);
+  }
   @ApiSecurity('JWT-auth')
   @Get()
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   findAll(@Req() req) {
-    console.log(req.user);
     return this.userService.findAll();
   }
-
+  @ApiSecurity('JWT-auth')
+  @Put(':id')
+  async updateUserById(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    await this.userService.updateUser(id, createUserDto);
+  }
   @ApiSecurity('JWT-auth')
   @Delete(':id')
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   remove(@Param('id') id: string, @Req() req) {
-    console.log(req.user);
     return this.userService.remove(+id);
   }
 }

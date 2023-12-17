@@ -45,8 +45,16 @@ export class CreateBonDto {
   @ApiProperty()
   @IsInt()
   prix: number;
-  
+
   @ApiProperty()
   @IsInt()
   numBon: number;
+
+  @ApiProperty()
+  @IsInt()
+  reste: number;
+
+  @ApiProperty()
+  @IsString()
+  status: string;
 }

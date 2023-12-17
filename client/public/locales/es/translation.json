@@ -1,0 +1,29 @@
+{
+  "Thanks": {
+    "1": "Thank you"
+  },
+  "Why": {
+    "1": "For watching this video"
+  },
+  "Sidebar": {
+    "bon": "Recibo:",
+    "creer-bon": "Crear Recibo",
+    "list-bon": "Lista  Recibos",
+    "user": "Usuarios"
+  },
+  "Bon": {
+    "titre-creer": "Validar la información de equipaje",
+    "ville": "Ciudad",
+    "date": "Fecha",
+    "destinataire": "Destinatario",
+    "expediteur": "Remitente",
+    "genre": "Género",
+    "poids": "Peso",
+    "prix": "Precio",
+    "num-bon": "Recibo",
+    "reste": "Resto",
+    "status": "Estado Recibo",
+    "button-ajouter": "Añadido a Recibo",
+    "button-changer": "Cambio"
+  }
+}

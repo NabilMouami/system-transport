@@ -1,42 +1,82 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import CardTicket from "../../components/CardTicket";
+import custom_axios from "../../axios/AxiosSetup";
+import { getLoginInfo } from "../../utils/LoginInfo";
+
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 
 const Home = () => {
+  const [listUsers, setListUsers] = useState([]);
+  const [listPayer, setListPayer] = useState([]);
+  const [listImpayer, setListImpayer] = useState([]);
+  const navigate = useNavigate();
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + "-" + mm + "-" + dd;
+  useEffect(() => {
+    if (getLoginInfo() == null) return navigate("/login");
+
+    custom_axios
+      .get(`/bon/bons/dashboard/${today}`, {
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+      })
+      .then(async (res) => {
+        await setListUsers(res.data);
+        const newFilterPay = res.data.filter((bon) => bon.status === "payer");
+        setListPayer(newFilterPay);
+        const newFilterImpayer = res.data.filter(
+          (bon) => bon.status === "impayer"
+        );
+        setListImpayer(newFilterImpayer);
+      });
+  }, []);
   return (
     <div>
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-4xl text-white">Good morning, jotredev!</h1>
+        <h1 className="text-4xl text-white">
+          Statistics De Ce Jour En Toute Agences!
+        </h1>
         <div className="flex items-center gap-2 text-3xl">
           <RiArrowLeftSLine className="hover:cursor-pointer hover:text-white transition-colors" />
           <RiArrowRightSLine className="hover:cursor-pointer hover:text-white transition-colors" />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Card */}
         <CardTicket
           ticket="total"
-          totalTickets="145,000"
-          text="Tickets totales"
+          totalTickets={
+            parseInt(
+              listPayer[0]?.count_status ? listPayer[0]?.count_status : 0
+            ) +
+            parseInt(
+              listImpayer[0]?.count_status ? listImpayer[0]?.count_status : 0
+            )
+          }
+          text="Coliyas totale"
         />
         <CardTicket
           ticket="pending"
-          totalTickets="5,000"
-          text="Tickets pendientes"
+          totalTickets={
+            listImpayer[0]?.count_status ? listImpayer[0]?.count_status : 0
+          }
+          text="Impayer Colyas"
         />
-        <CardTicket
-          ticket="inProcess"
-          totalTickets="130,000"
-          text="Tickets en proceso"
-        />
+
         <CardTicket
           ticket="close"
-          totalTickets="10,000"
-          text="Tickets cerrados"
+          totalTickets={
+            listPayer[0]?.count_status ? listPayer[0]?.count_status : 0
+          }
+          text="Payer Colyas"
         />
       </div>
       <div>

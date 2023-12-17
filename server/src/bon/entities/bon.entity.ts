@@ -39,8 +39,17 @@ export class BonBagage {
   @Column()
   prix: number;
 
-  @Column({type: "bigint"})
-  numBon: number;
+  @Column({ type: 'bigint' })
+  numBon: BigInt;
+
+  @Column()
+  reste: number;
+
+  @Column()
+  status: string;
+
+  @Column()
+  unity: string;
 
   @ManyToOne(() => User, (user) => user.bons)
   user: User;

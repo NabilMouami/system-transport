@@ -32,7 +32,9 @@ export class UserService {
   findUserByEmail(email: string) {
     return this.userRepository.findOne({ where: { email: email } });
   }
-
+  updateUser(id: number, updateUserDetails: CreateUserDto) {
+    return this.userRepository.update({ id }, { ...updateUserDetails });
+  }
   remove(id: number) {
     return this.userRepository.delete(id);
   }

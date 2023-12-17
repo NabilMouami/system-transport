@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // Icons
 import {
   RiBarChart2Line,
@@ -14,10 +14,17 @@ import {
   RiAccountBoxLine,
   RiCaravanFill,
 } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSubmenu, setShowSubmenu] = useState(false);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const Logout = async () => {
+    await localStorage.removeItem("token");
+    await navigate("/login");
+  };
   return (
     <>
       <div
@@ -26,9 +33,20 @@ const Sidebar = () => {
         } transition-all`}
       >
         <div>
-          <h1 className="text-center text-2xl font-bold text-white mb-10">
-            Admin<span className="text-primary text-4xl">.</span>
-          </h1>
+          <div className="flex flex-col items-center">
+            <h1 className="text-center text-2xl font-bold text-white mb-10">
+              Hiba <span className="text-orange-400">Trans</span>
+              <span className="text-primary text-4xl">.</span>
+            </h1>
+            <img
+              src="/images/trans-bagage.jpg"
+              alt="logo-society"
+              className="rounded-full"
+              width="100"
+              height="100"
+            />
+            <hr className="w-full my-8 border-white-500/30" />
+          </div>
           <ul className="font-bold tracking-wide">
             <li>
               <Link
@@ -44,7 +62,8 @@ const Sidebar = () => {
                 className="w-full flex items-center justify-between py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
               >
                 <span className="flex items-center gap-4">
-                  <RiEarthLine className="text-primary" /> Bon De Client
+                  <RiEarthLine className="text-primary" />
+                  {t("Sidebar.bon")}
                 </span>
                 <RiArrowRightSLine
                   className={`mt-1 ${
@@ -62,7 +81,7 @@ const Sidebar = () => {
                     to="/creer-bon-bagage"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
-                    Creer Bon.
+                    {t("Sidebar.creer-bon")}.
                   </Link>
                 </li>
                 <li>
@@ -70,7 +89,7 @@ const Sidebar = () => {
                     to="/list-bon-bagage"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-gray-500 before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
-                    List Bons.
+                    {t("Sidebar.list-bon")}.
                   </Link>
                 </li>
               </ul>
@@ -80,7 +99,7 @@ const Sidebar = () => {
                 to="/users"
                 className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
               >
-                <RiAdminFill className="text-primary" /> Utilisateurs
+                <RiAdminFill className="text-primary" /> {t("Sidebar.user")}
               </Link>
             </li>
             <li>
@@ -99,29 +118,18 @@ const Sidebar = () => {
                 <RiCaravanFill className="text-primary" /> Chauffeurs
               </Link>
             </li>
-
-            <li>
-              <Link
-                to="/"
-                className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
-              >
-                <RiCalendarTodoLine className="text-primary" /> Calendario
-              </Link>
-            </li>
           </ul>
         </div>
-        <nav>
-          <Link
-            to="/"
-            className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
-          >
-            <RiLogoutCircleRLine className="text-primary" /> Log out
-          </Link>
-        </nav>
+        <button
+          onClick={() => Logout()}
+          className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
+        >
+          <RiLogoutCircleRLine className="text-primary" /> Log out
+        </button>
       </div>
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="fixed top-0  bg-primary text-black p-3 ml-[250px] rounded-full z-50"
+        className="xl:hidden fixed top-3 left-4 bg-primary text-black p-3 rounded-full z-50"
       >
         {showMenu ? <RiCloseLine /> : <RiMenu3Line />}
       </button>

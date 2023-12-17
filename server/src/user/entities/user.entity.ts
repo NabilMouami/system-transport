@@ -22,5 +22,4 @@ export class User {
   role: string;
   @OneToMany(() => BonBagage, (bon) => bon.user)
   bons: BonBagage[];
-
 }
